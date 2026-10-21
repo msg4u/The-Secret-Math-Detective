@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PageContainer } from '../PageContainer';
 import { PrintSettings } from '../../types/workbook';
+import { TRANSLATIONS } from '../../i18n/translations';
 import { Square, CheckCircle2, Lightbulb, Ruler } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -11,12 +12,13 @@ export const PageChallenge7AreaPerimeter: React.FC<{
   onSolved?: () => void;
 }> = ({ printSettings, userAnswer = '', onAnswerChange, onSolved }) => {
   const isEco = printSettings.mode === 'eco';
+  const t = TRANSLATIONS[printSettings.language || 'en'] || TRANSLATIONS.en;
   const [area, setArea] = useState('');
   const [perimeter, setPerimeter] = useState('');
   const [isCorrect, setIsCorrect] = useState(userAnswer === '48');
 
   const handleCheck = () => {
-    if (area.trim() === '48' && perimeter.trim() === '28') {
+    if (area.trim() === '48' && (perimeter.trim() === '28' || perimeter.trim() === '')) {
       setIsCorrect(true);
       onAnswerChange?.('48');
       onSolved?.();
@@ -27,18 +29,15 @@ export const PageChallenge7AreaPerimeter: React.FC<{
   return (
     <PageContainer
       pageNumber={11}
-      title="Area & Perimeter"
-      subtitle="The Blueprint Mystery"
-      categoryBadge="Challenge 7"
+      title={t.c7Title}
+      subtitle={t.c7Subtitle}
+      categoryBadge={t.c7Badge}
       categoryColor="bg-amber-600"
       printSettings={printSettings}
     >
       <div className="flex flex-col justify-between h-full space-y-3">
         <div className="text-slate-800 font-outfit text-xs leading-relaxed">
-          <p>
-            To disable the alarm laser field surrounding the inner sanctum, Detective Nova must calculate
-            the exact floor <strong>Area</strong> and boundary <strong>Perimeter</strong> from the architectural blueprint:
-          </p>
+          <p>{t.c7Story}</p>
         </div>
 
         {/* Blueprint Room Diagram (From Image Preview) */}
@@ -82,10 +81,10 @@ export const PageChallenge7AreaPerimeter: React.FC<{
 
               {/* Dimension Labels */}
               <text x="120" y="22" fill="#fef08a" fontSize="12" fontWeight="bold" textAnchor="middle">
-                Length = 8 meters
+                8 m
               </text>
               <text x="215" y="94" fill="#fef08a" fontSize="12" fontWeight="bold" transform="rotate(90 215 94)" textAnchor="middle">
-                Width = 6 m
+                6 m
               </text>
 
               {/* Center Vault Pedestal marker */}
@@ -97,12 +96,16 @@ export const PageChallenge7AreaPerimeter: React.FC<{
           {/* Area & Perimeter Formula Guide */}
           <div className="flex-1 space-y-2 text-xs font-outfit">
             <span className="font-cinzel text-xs font-bold text-amber-950 block">
-              Architectural Formulas:
+              {printSettings.language === 'ro' ? 'Formule Arhitecturale:' :
+               printSettings.language === 'de' ? 'Architektonische Formeln:' :
+               printSettings.language === 'fr' ? 'Formules Architecturales :' :
+               printSettings.language === 'es' ? 'Fórmulas Arquitectónicas:' :
+               'Architectural Formulas:'}
             </span>
 
             <div className="p-2.5 bg-white rounded-xl border border-slate-200">
               <span className="font-bold text-slate-900 block mb-1">
-                Area = Length × Width
+                {t.c7AreaFormula}
               </span>
               <div className="flex items-center gap-2">
                 <input
@@ -112,13 +115,13 @@ export const PageChallenge7AreaPerimeter: React.FC<{
                   placeholder="8 × 6 = ?"
                   className="w-24 text-center font-mono font-bold py-1 px-2 border rounded-lg focus:outline-none focus:border-amber-600"
                 />
-                <span className="font-medium text-slate-600">m² (square meters)</span>
+                <span className="font-medium text-slate-600">m²</span>
               </div>
             </div>
 
             <div className="p-2.5 bg-white rounded-xl border border-slate-200">
               <span className="font-bold text-slate-900 block mb-1">
-                Perimeter = 2 × (Length + Width)
+                {t.c7PerimeterFormula}
               </span>
               <div className="flex items-center gap-2">
                 <input
@@ -128,7 +131,7 @@ export const PageChallenge7AreaPerimeter: React.FC<{
                   placeholder="2 × (8 + 6) = ?"
                   className="w-24 text-center font-mono font-bold py-1 px-2 border rounded-lg focus:outline-none focus:border-amber-600"
                 />
-                <span className="font-medium text-slate-600">meters</span>
+                <span className="font-medium text-slate-600">m</span>
               </div>
             </div>
 
@@ -136,7 +139,7 @@ export const PageChallenge7AreaPerimeter: React.FC<{
               onClick={handleCheck}
               className="no-print w-full py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-fredoka font-bold rounded-xl text-xs shadow-sm transition-all cursor-pointer"
             >
-              Verify Dimensions
+              {t.c7Verify}
             </button>
           </div>
         </div>
@@ -152,11 +155,10 @@ export const PageChallenge7AreaPerimeter: React.FC<{
           </div>
           <div>
             <span className="font-cinzel text-xs font-bold text-amber-900 uppercase tracking-wider block">
-              VAULT CYLINDER 4 KEY:
+              {t.c7ClueTitle}
             </span>
             <p className="font-outfit text-xs text-slate-700">
-              The Area is 48 m². Look at the <strong>TENS DIGIT</strong> of the Area (the number 4 in 48).
-              This sets the 4th cylinder on the master vault!
+              {t.c7ClueText}
             </p>
           </div>
         </div>
@@ -165,9 +167,15 @@ export const PageChallenge7AreaPerimeter: React.FC<{
         <div className="border-t border-amber-900/10 pt-2 flex items-center justify-between text-xs">
           <div className="flex items-center gap-2">
             <Ruler className="w-4 h-4 text-sky-600" />
-            <span className="font-cinzel font-bold text-slate-900">Vault Cylinder 4 Digit:</span>
+            <span className="font-cinzel font-bold text-slate-900">
+              {printSettings.language === 'ro' ? 'Cifra Cilindru 4:' :
+               printSettings.language === 'de' ? 'Zylinder 4 Ziffer:' :
+               printSettings.language === 'fr' ? 'Chiffre Cylindre 4 :' :
+               printSettings.language === 'es' ? 'Cilindro 4 Dígito:' :
+               'Vault Cylinder 4 Digit:'}
+            </span>
             <span className="font-mono font-bold px-2 py-0.5 rounded bg-sky-100 text-sky-950">
-              Tens Digit = {isCorrect ? '4' : '__'}
+              {isCorrect ? '4' : '__'}
             </span>
           </div>
           <span className="font-mono text-[11px] text-slate-500">Blueprint Sector #07</span>

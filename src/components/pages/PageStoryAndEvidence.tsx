@@ -1,19 +1,28 @@
 import React from 'react';
 import { PageContainer } from '../PageContainer';
 import { PrintSettings } from '../../types/workbook';
+import { TRANSLATIONS } from '../../i18n/translations';
 import { NovaCharacter, PipRobot, MoonstoneCrystal } from '../illustrations/Characters';
 import { SuspectAvatar } from '../illustrations/SuspectAvatars';
-import { SUSPECTS } from '../../data/workbookData';
 import { CheckCircle2, Award, ShieldAlert, FileText, CheckSquare, Search } from 'lucide-react';
 
 export const PageSolutionReveal: React.FC<{ printSettings: PrintSettings }> = ({ printSettings }) => {
   const isEco = printSettings.mode === 'eco';
+  const t = TRANSLATIONS[printSettings.language || 'en'] || TRANSLATIONS.en;
+
+  const pillars = [
+    { num: 1, name: 'Challenge 1 (Star Code)', fact: 'Frequency Sequence = 21' },
+    { num: 2, name: 'Challenge 2 (Late Night Time)', fact: 'Greenhouse Entry Time = 10:10 PM' },
+    { num: 3, name: 'Challenge 6 (Lens Calibration)', fact: 'Fraction Numerator = 2' },
+    { num: 4, name: 'Challenge 7 (Area Blueprint)', fact: 'Area = 48 m² (Tens Digit = 4)' },
+    { num: 5, name: 'Challenge 10 (Gear Safe)', fact: 'PEMDAS Calculation = 68 (Units = 8)' },
+  ];
 
   return (
     <PageContainer
       pageNumber={17}
-      title="The Mystery Solved!"
-      subtitle="Case Closed at Starfall"
+      title={t.p17Title}
+      subtitle={t.p17Subtitle}
       categoryBadge="Story Finale"
       categoryColor="bg-emerald-600"
       printSettings={printSettings}
@@ -33,10 +42,10 @@ export const PageSolutionReveal: React.FC<{ printSettings: PrintSettings }> = ({
               CONFESSION & ARREST REPORT
             </div>
             <h2 className="font-fredoka text-xl font-bold text-emerald-300">
-              The Culprit Was Dr. Vega!
+              {t.p17CulpritBanner}
             </h2>
             <p className="font-outfit text-xs text-slate-300 mt-0.5">
-              Motivated to unlock the Moonstone’s rare lunar luminescence for his bio-luminescent night orchids!
+              {t.p17Motive}
             </p>
           </div>
         </div>
@@ -44,70 +53,69 @@ export const PageSolutionReveal: React.FC<{ printSettings: PrintSettings }> = ({
         {/* Story Narrative Box */}
         <div className="p-4 rounded-2xl bg-white border border-amber-900/15 text-slate-800 text-xs leading-relaxed space-y-2 font-outfit shadow-xs">
           <p>
-            With the vault code <strong>21-10-2-4-8</strong> entered into the heavy steel cylinders, the massive vault doors hissed open!
-            Standing inside the secret rear ventilation ducts of the greenhouse, Detective Nova and Pip caught Dr. Vega red-handed as he carefully packed the glowing Celestial Moonstone into an insulated specimen crate!
+            {printSettings.language === 'ro'
+              ? 'Cu codul 21-10-2-4-8 introdus în cilindrii de oțel, ușile masive ale seifului s-au deschis! În spatele conductelor de ventilație ale serei, detectivul Nova și robotul Pip l-au prins pe Dr. Vega chiar când ambala Piatra Lunii!'
+              : printSettings.language === 'de'
+              ? 'Mit der Zahlenkombination 21-10-2-4-8 öffneten sich die massiven Stahltüren! In den Lüftungsschächten des Gewächshauses ertappten Nova und Pip Dr. Vega auf frischer Tat mit dem Mondstein!'
+              : printSettings.language === 'fr'
+              ? 'Avec la combinaison 21-10-2-4-8, les portes de la chambre forte se sont ouvertes ! Dans les conduits de la serre, Nova et Pip ont surpris le Dr Vega en flagrant délit avec la Pierre Lunaire !'
+              : printSettings.language === 'es'
+              ? '¡Con el código 21-10-2-4-8, las pesadas puertas se abrieron! Detrás de los conductos del invernadero, la detective Nova y Pip atraparon al Dr. Vega in fraganti con la Piedra Lunar.'
+              : 'With the vault code 21-10-2-4-8 entered into the heavy steel cylinders, the massive vault doors hissed open! Detective Nova and Pip caught Dr. Vega red-handed packing the glowing Celestial Moonstone!'}
           </p>
-          <p>
-            "Incredible deductive work, Detective!" confessed Dr. Vega, lowering his spectacles. "I thought my riddle logic was uncrackable. I knew that by truthfully saying I was in the garden, suspicion would fall on the other three who told falsehoods. But your mathematical calculations pieced together every single clue—from the 10:10 PM timeline to the 28 cm boot print!"
+          <p className="italic text-slate-600">
+            {t.p17Congratulations}
           </p>
         </div>
 
-        {/* How the Math Solved the Case (5 Pillars) */}
+        {/* 5 Pillars */}
         <div className="space-y-1.5 font-outfit">
           <span className="font-cinzel text-xs font-bold text-slate-900 uppercase tracking-wider block">
-            The 5 Pillars of Mathematical Proof:
+            {t.p17FivePillarsTitle}
           </span>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-            <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200">
-              <span className="font-bold text-amber-950 block">1. The Timestamp:</span>
-              <span className="text-slate-700">11:45 PM − 1 hr 35 min = 10:10 PM entrance at garden wing.</span>
-            </div>
-            <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200">
-              <span className="font-bold text-amber-950 block">2. Coordinate Proof:</span>
-              <span className="text-slate-700">Muddy footprints found at (2, 4) leading directly from greenhouse.</span>
-            </div>
-            <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200">
-              <span className="font-bold text-amber-950 block">3. Knights & Knaves Logic:</span>
-              <span className="text-slate-700">Only Vega's garden statement was true; Luna & Max contradicted.</span>
-            </div>
-            <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200">
-              <span className="font-bold text-amber-950 block">4. Metric Footwear:</span>
-              <span className="text-slate-700">28 cm sole matched Dr. Vega's European size 44 boots with orchid pollen.</span>
-            </div>
+            {pillars.map((p) => (
+              <div key={p.num} className="p-2 bg-amber-50/60 rounded-xl border border-amber-900/10 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <div>
+                  <span className="font-bold text-slate-900">{p.name}:</span>{' '}
+                  <span className="font-mono text-emerald-800 font-medium">{p.fact}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Nova & Pip Celebration Dialogue */}
-        <div
-          className={`p-3 rounded-2xl border flex items-center justify-between gap-3 ${
-            isEco ? 'bg-slate-100 border-slate-300' : 'bg-gradient-to-r from-amber-100 via-orange-50 to-amber-100 border-amber-300'
-          }`}
-        >
+        {/* Nova & Pip Congratulatory Characters */}
+        <div className="p-3 bg-amber-100/60 rounded-2xl border border-amber-300 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <NovaCharacter size={70} pose="holding_lens" />
+            <NovaCharacter size={60} pose="holding_lens" />
+            <PipRobot size={50} />
             <div>
-              <span className="font-fredoka text-xs font-bold text-amber-950 block">
-                Detective Nova & Pip Congratulate You:
+              <span className="font-fredoka text-sm font-bold text-amber-950 block">
+                {printSettings.language === 'ro' ? 'Misiune Îndeplinită cu Succes!' :
+                 printSettings.language === 'de' ? 'Mission erfolgreich abgeschlossen!' :
+                 printSettings.language === 'fr' ? 'Mission Accomplie avec Succès !' :
+                 printSettings.language === 'es' ? '¡Misión Cumplida con Éxito!' :
+                 'Case Solved with Mathematical Rigor!'}
               </span>
-              <p className="font-hand text-sm font-bold text-slate-800">
-                "You cracked every math challenge flawlessly! The Moonstone is back in its celestial dome, shining brighter than ever!"
+              <p className="font-outfit text-xs text-amber-900">
+                {t.p17Congratulations}
               </p>
             </div>
           </div>
-          <MoonstoneCrystal size={60} glow={!isEco} className="shrink-0" />
+          <MoonstoneCrystal size={50} />
         </div>
 
         {/* Footer */}
         <div className="border-t border-amber-900/10 pt-2 flex items-center justify-between text-xs">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-            <span className="font-cinzel font-bold text-slate-900">Case Status:</span>
-            <span className="font-mono font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-950">
-              SOLVED & CLOSED
-            </span>
+            <Award className="w-4 h-4 text-emerald-600" />
+            <span className="font-cinzel font-bold text-slate-900">Case Verdict:</span>
+            <span className="font-mono font-bold text-emerald-700">GUILTY - Dr. Vega</span>
           </div>
-          <span className="font-mono text-[11px] text-slate-500">Official Report #17</span>
+          <span className="font-mono text-[11px] text-slate-500">Finale Story Reveal #17</span>
         </div>
       </div>
     </PageContainer>
@@ -116,102 +124,81 @@ export const PageSolutionReveal: React.FC<{ printSettings: PrintSettings }> = ({
 
 export const PageEvidenceLog: React.FC<{ printSettings: PrintSettings }> = ({ printSettings }) => {
   const isEco = printSettings.mode === 'eco';
+  const t = TRANSLATIONS[printSettings.language || 'en'] || TRANSLATIONS.en;
+
+  const evidenceRows = [
+    { item: 'Muddy Footprint', location: 'Greenhouse Doorway', mathConcept: 'Measurement (28 cm)', link: 'Dr. Vega (Size 44)' },
+    { item: 'Glass-Cutter & Harness', location: 'Observatory Skylight', mathConcept: 'Secret Cipher (LOOK UP)', link: 'Escape Path' },
+    { item: 'Electrical Load Surge', location: 'High-Security Vault', mathConcept: 'Bar Chart (25 kW difference)', link: 'Laser Cutter Alarm (11:42 PM)' },
+    { item: 'Fluorescent Green Dust', location: 'Corridor Carpet', mathConcept: 'Chemical Botany Analysis', link: 'Selenicereus Night Cactus Pollen' },
+    { item: 'Single Truth Statement', location: 'Observatory Alibi Council', mathConcept: 'Truth-Teller Logic Puzzle', link: 'Dr. Vega in Garden' },
+  ];
 
   return (
     <PageContainer
       pageNumber={18}
-      title="Evidence Log"
-      subtitle="Case Summary & Deduction Grid"
-      categoryBadge="Deduction Log"
-      categoryColor="bg-indigo-600"
+      title={t.p18Title}
+      subtitle={t.p18Subtitle}
+      categoryBadge="Evidence Log"
+      categoryColor="bg-slate-700"
       printSettings={printSettings}
     >
       <div className="flex flex-col justify-between h-full space-y-3 font-outfit">
         <div className="text-slate-800 text-xs leading-relaxed">
-          <p>
-            Review the final case summary matrix. Real detectives keep clear records of suspect alibis, forensic clues, and math deduction proofs.
-          </p>
+          <p>{t.p18Desc}</p>
         </div>
 
-        {/* Master Deduction Table */}
-        <div className="overflow-x-auto rounded-xl border border-amber-900/20 shadow-xs">
-          <table className="w-full text-left text-xs bg-white">
-            <thead className="bg-slate-900 text-amber-300 font-cinzel text-[10px] uppercase tracking-wider">
-              <tr>
-                <th className="p-2.5">Suspect</th>
-                <th className="p-2.5">Role</th>
-                <th className="p-2.5">Claimed Alibi</th>
-                <th className="p-2.5">Truth/Lie</th>
-                <th className="p-2.5">Forensic Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-200">
-              {SUSPECTS.map((s) => (
-                <tr key={s.id} className={s.isGuilty ? 'bg-red-50/70 font-semibold' : 'hover:bg-slate-50'}>
-                  <td className="p-2.5 flex items-center gap-2">
-                    <SuspectAvatar id={s.id as any} size={28} />
-                    <span className="font-bold text-slate-900">{s.name}</span>
-                  </td>
-                  <td className="p-2.5 text-slate-600">{s.role}</td>
-                  <td className="p-2.5 font-hand text-sm text-slate-800">{s.statement}</td>
-                  <td className="p-2.5">
-                    <span
-                      className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
-                        s.isGuilty ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'
-                      }`}
-                    >
-                      {s.isGuilty ? 'TRUTH (1 of 1)' : 'FALSE'}
-                    </span>
-                  </td>
-                  <td className="p-2.5">
-                    {s.isGuilty ? (
-                      <span className="text-red-700 font-bold flex items-center gap-1">
-                        ★ GUILTY (Boot & Pollen Match)
-                      </span>
-                    ) : (
-                      <span className="text-slate-500">Cleared</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        {/* Master Evidence Table */}
+        <div className="flex-1 bg-white rounded-2xl border-2 border-slate-300 overflow-hidden shadow-xs flex flex-col justify-between">
+          <div className="bg-slate-900 text-white px-4 py-2 flex items-center justify-between text-xs font-cinzel font-bold">
+            <span className="flex items-center gap-1.5">
+              <Search className="w-3.5 h-3.5 text-amber-400" />
+              {printSettings.language === 'ro' ? 'Matricea Probelor Criminalistice' :
+               printSettings.language === 'de' ? 'Forensische Beweismatrix' :
+               printSettings.language === 'fr' ? 'Matrice des Preuves Judiciaires' :
+               printSettings.language === 'es' ? 'Matriz de Evidencias Forenses' :
+               'Forensic Evidence Matrix'}
+            </span>
+            <span className="font-mono text-[10px] text-amber-300">STARFALL #882-B</span>
+          </div>
 
-        {/* Physical Evidence Checklist for Kids */}
-        <div className="p-3 bg-amber-50/60 rounded-xl border border-amber-900/15 space-y-2">
-          <span className="font-cinzel text-xs font-bold text-amber-950 uppercase tracking-wider block">
-            Physical Evidence Checklist:
-          </span>
-          <div className="grid grid-cols-2 gap-2 text-xs">
-            {[
-              { clue: 'Star Code Parchment Note (Sequence 21)', found: true },
-              { clue: 'Clock Alarm Log (11:45 PM & 10:10 PM)', found: true },
-              { clue: 'Muddy Footprint at (2, 4) in Greenhouse', found: true },
-              { clue: 'Cracked Lens Shards (1/4 + 2/8 = 1/2)', found: true },
-              { clue: 'Blueprint Perimeter (28 m) & Area (48 m²)', found: true },
-              { clue: 'Skyward Cipher Message ("LOOK UP")', found: true },
-              { clue: 'Power Spike Surge at Vault (25 kW)', found: true },
-              { clue: 'Gearbox Lock Mechanism (PEMDAS = 68)', found: true },
-            ].map((ev, i) => (
-              <label key={i} className="flex items-center gap-2 p-1.5 bg-white rounded-lg border border-slate-200">
-                <input type="checkbox" defaultChecked={ev.found} className="rounded text-amber-600 focus:ring-amber-500" />
-                <span className="truncate">{ev.clue}</span>
-              </label>
+          <div className="divide-y divide-slate-200 text-xs">
+            {evidenceRows.map((row, idx) => (
+              <div key={idx} className="p-3 grid grid-cols-1 sm:grid-cols-4 gap-2 hover:bg-slate-50 transition-colors">
+                <div className="font-bold text-slate-900 flex items-center gap-1.5">
+                  <CheckSquare className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <span>{row.item}</span>
+                </div>
+                <div className="text-slate-600">
+                  <span className="font-mono text-[10px] uppercase text-slate-400 block">Location:</span>
+                  {row.location}
+                </div>
+                <div className="text-amber-900 font-medium">
+                  <span className="font-mono text-[10px] uppercase text-slate-400 block">Math Concept:</span>
+                  {row.mathConcept}
+                </div>
+                <div className="text-emerald-800 font-mono font-bold">
+                  <span className="font-mono text-[10px] uppercase text-slate-400 block">Verdict Link:</span>
+                  {row.link}
+                </div>
+              </div>
             ))}
           </div>
+
+          <div className="p-3 bg-slate-50 border-t border-slate-200 text-[11px] text-slate-600 flex items-center justify-between">
+            <span>Inspector Certification: Verified by Detective Nova</span>
+            <span className="font-mono font-bold text-emerald-700">STATUS: CASE CLOSED</span>
+          </div>
         </div>
 
-        {/* Detective Field Sign-off */}
+        {/* Footer */}
         <div className="border-t border-amber-900/10 pt-2 flex items-center justify-between text-xs">
           <div className="flex items-center gap-2">
-            <CheckSquare className="w-4 h-4 text-indigo-600" />
-            <span className="font-cinzel font-bold text-slate-900">Evidence Verification:</span>
-            <span className="font-mono font-bold px-2 py-0.5 rounded bg-indigo-100 text-indigo-950">
-              100% Complete
-            </span>
+            <FileText className="w-4 h-4 text-slate-700" />
+            <span className="font-cinzel font-bold text-slate-900">Docket Status:</span>
+            <span className="font-mono font-bold text-slate-800">Archive Record Complete</span>
           </div>
-          <span className="font-mono text-[11px] text-slate-500">Dossier File #18</span>
+          <span className="font-mono text-[11px] text-slate-500">Detective Archive #18</span>
         </div>
       </div>
     </PageContainer>

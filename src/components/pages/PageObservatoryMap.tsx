@@ -43,7 +43,7 @@ export const PageObservatoryMap: React.FC<{ printSettings: PrintSettings }> = ({
 
         {/* Blueprint Map Canvas / SVG */}
         <div
-          className={`relative w-full h-[400px] rounded-2xl border-2 overflow-hidden shadow-inner flex items-center justify-center ${
+          className={`relative w-full h-[340px] sm:h-[360px] rounded-2xl border-2 overflow-hidden shadow-inner flex items-center justify-center ${
             isEco
               ? 'bg-slate-50 border-slate-400'
               : 'bg-gradient-to-b from-[#0a192f] via-[#0f284e] to-[#0a192f] border-sky-400/30'

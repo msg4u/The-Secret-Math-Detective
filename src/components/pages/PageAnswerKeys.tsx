@@ -1,11 +1,13 @@
 import React from 'react';
 import { PageContainer } from '../PageContainer';
 import { PrintSettings } from '../../types/workbook';
+import { TRANSLATIONS } from '../../i18n/translations';
 import { CHALLENGE_DATA } from '../../data/workbookData';
 import { CheckCircle2, BookOpen, KeyRound, Sparkles } from 'lucide-react';
 
 export const PageAnswerKey1: React.FC<{ printSettings: PrintSettings }> = ({ printSettings }) => {
   const isEco = printSettings.mode === 'eco';
+  const t = TRANSLATIONS[printSettings.language || 'en'] || TRANSLATIONS.en;
 
   const answersPart1 = [
     {
@@ -55,8 +57,8 @@ export const PageAnswerKey1: React.FC<{ printSettings: PrintSettings }> = ({ pri
   return (
     <PageContainer
       pageNumber={21}
-      title="Answer Key (Part 1)"
-      subtitle="Challenges 1 to 6 Explained"
+      title={t.p21Title}
+      subtitle={t.p21Subtitle}
       categoryBadge="Answer Key"
       categoryColor="bg-slate-700"
       printSettings={printSettings}
@@ -64,10 +66,18 @@ export const PageAnswerKey1: React.FC<{ printSettings: PrintSettings }> = ({ pri
       <div className="flex flex-col justify-between h-full space-y-3 font-outfit">
         <div className="text-slate-700 text-xs flex items-center justify-between">
           <p>
-            Complete solutions and pedagogical step-by-step logic for Challenges 1 through 6.
+            {printSettings.language === 'ro' ? 'Soluții complete și logică pas cu pas pentru provocările 1-6.' :
+             printSettings.language === 'de' ? 'Vollständige Lösungen und Rechenwege für die Aufgaben 1 bis 6.' :
+             printSettings.language === 'fr' ? 'Solutions complètes et explications étape par étape pour les défis 1 à 6.' :
+             printSettings.language === 'es' ? 'Soluciones completas y explicaciones paso a paso para los desafíos 1 a 6.' :
+             'Complete solutions and pedagogical step-by-step logic for Challenges 1 through 6.'}
           </p>
           <span className="font-mono text-[11px] font-bold text-amber-900 bg-amber-100 px-2 py-0.5 rounded">
-            For Teachers & Detectives
+            {printSettings.language === 'ro' ? 'Ghid Profesori & Detectivi' :
+             printSettings.language === 'de' ? 'Lehrer & Detektive' :
+             printSettings.language === 'fr' ? 'Enseignants & Détectives' :
+             printSettings.language === 'es' ? 'Profesores & Detectives' :
+             'For Teachers & Detectives'}
           </span>
         </div>
 
@@ -89,14 +99,15 @@ export const PageAnswerKey1: React.FC<{ printSettings: PrintSettings }> = ({ pri
                     {item.ans}
                   </span>
                 </div>
-                <p className="text-slate-600 leading-snug mt-1 text-[11px]">
-                  {item.expl}
-                </p>
+                <p className="text-slate-600 leading-relaxed text-[11px]">{item.expl}</p>
               </div>
-
-              <div className="mt-2 pt-1 border-t border-dashed border-amber-900/10 flex items-center gap-1 font-mono text-[10px] text-amber-900 font-bold">
-                <KeyRound className="w-3 h-3 text-amber-600" />
-                <span>Unlocked: {item.clue}</span>
+              <div className="mt-2 pt-1 border-t border-amber-900/10 flex items-center justify-between font-mono text-[10px] text-amber-900 font-bold">
+                <span className="flex items-center gap-1">
+                  <KeyRound className="w-3 h-3" /> {item.clue}
+                </span>
+                <span className="text-emerald-700 flex items-center gap-0.5">
+                  <CheckCircle2 className="w-3 h-3" /> Verified
+                </span>
               </div>
             </div>
           ))}
@@ -105,11 +116,11 @@ export const PageAnswerKey1: React.FC<{ printSettings: PrintSettings }> = ({ pri
         {/* Footer */}
         <div className="border-t border-amber-900/10 pt-2 flex items-center justify-between text-xs">
           <div className="flex items-center gap-2">
-            <BookOpen className="w-4 h-4 text-slate-600" />
-            <span className="font-cinzel font-bold text-slate-900">Official Solutions Manual:</span>
-            <span className="font-mono text-slate-600">Part 1 of 2</span>
+            <BookOpen className="w-4 h-4 text-slate-700" />
+            <span className="font-cinzel font-bold text-slate-900">Solutions Guide:</span>
+            <span className="font-mono font-bold text-slate-700">Part 1 of 2</span>
           </div>
-          <span className="font-mono text-[11px] text-slate-500">Solutions Guide #21</span>
+          <span className="font-mono text-[11px] text-slate-500">Official Solutions #21</span>
         </div>
       </div>
     </PageContainer>
@@ -118,6 +129,7 @@ export const PageAnswerKey1: React.FC<{ printSettings: PrintSettings }> = ({ pri
 
 export const PageAnswerKey2: React.FC<{ printSettings: PrintSettings }> = ({ printSettings }) => {
   const isEco = printSettings.mode === 'eco';
+  const t = TRANSLATIONS[printSettings.language || 'en'] || TRANSLATIONS.en;
 
   const answersPart2 = [
     {
@@ -125,50 +137,50 @@ export const PageAnswerKey2: React.FC<{ printSettings: PrintSettings }> = ({ pri
       title: 'Area & Perimeter (The Blueprint)',
       ans: 'Area = 48 m², P = 28 m',
       clue: 'Vault Cylinder 4 = 4',
-      expl: 'Area = length × width = 8 × 6 = 48 sq meters. Perimeter = 2 × (8 + 6) = 28 meters. The tens digit of Area (4 in 48) sets Cylinder 4.',
+      expl: 'Area = 8 × 6 = 48 m². Perimeter = 2 × (8 + 6) = 28 m. Tens digit of 48 is 4, unlocking cylinder 4.',
     },
     {
       num: 8,
-      title: 'Constellation Cipher (Multiplication)',
-      ans: '"LOOK UP"',
-      clue: 'Directs to Skylight Exit',
-      expl: '7×8=56(L), 5×3=15(O), 3×5=15(O), 4×6=24(K), 9×3=27(U), 8×2=16(P). Message reveals "LOOK UP" directing to the rooftop glass skylight.',
+      title: 'Secret Cipher (Constellation Code)',
+      ans: 'Phrase: "LOOK UP"',
+      clue: 'Skylight Exit Identified',
+      expl: 'Star factor products match letters: 56=L, 15=O, 15=O, 24=K, 27=U, 16=P. Secret words: LOOK UP.',
     },
     {
       num: 9,
-      title: 'Graphs & Data (Power Surge)',
-      ans: 'Vault (65 kW), Spike = 25 kW',
-      clue: 'Surge Time: 11:42 PM',
-      expl: 'The Vault drew 65 kW, exceeding the Dome (40 kW) by 25 kW (65 − 40 = 25 kW). Total consumption across all 5 wings = 165 kW.',
+      title: 'Graphs & Data (Power Grid)',
+      ans: 'Vault Spike = 25 kW',
+      clue: 'Laser Cutter Surge Time',
+      expl: 'Vault drew 65 kW; Dome drew 40 kW. Difference: 65 - 40 = 25 kW surge right at 11:42 PM.',
     },
     {
       num: 10,
-      title: 'Order of Operations (The Gear Safe)',
-      ans: 'Code = 68',
+      title: 'Order of Operations (Gear Safe)',
+      ans: 'Combination = 68',
       clue: 'Vault Cylinder 5 = 8',
-      expl: 'PEMDAS rules: (12 + 6) = 18. Then 18 × 4 = 72, and 8 ÷ 2 = 4. Finally 72 − 4 = 68. The units digit of 68 (8) sets the 5th vault cylinder.',
+      expl: '(12 + 6) = 18. 18 × 4 = 72. 8 ÷ 2 = 4. 72 - 4 = 68. The units digit of 68 is 8, setting final cylinder.',
     },
     {
       num: 11,
-      title: 'Measurement & Forensics (Footprints)',
-      ans: 'Dr. Vega (28 cm)',
-      clue: 'Orchid Pollen Verified',
-      expl: 'Measured footprint length is 28 cm, exactly matching Dr. Vega’s size 44 boots. Chemical tests confirmed Selenicereus pollen from his greenhouse.',
+      title: 'Measurement (Footprint Trail)',
+      ans: 'Boot Length = 28 cm',
+      clue: 'Dr. Vega Sole Match',
+      expl: 'Ruler measures 28 cm exactly. Footwear register confirms Dr. Vega wears size 44 boots (28 cm) with pollen.',
     },
     {
       num: 12,
-      title: 'The Master Moonstone Vault',
+      title: 'Final Vault Tumbler Lock',
       ans: '21 - 10 - 2 - 4 - 8',
-      clue: 'Master Vault Opened!',
-      expl: 'Assembling all five extracted clues: Cylinder 1 (21) + Cylinder 2 (10) + Cylinder 3 (2) + Cylinder 4 (4) + Cylinder 5 (8).',
+      clue: 'Moonstone Recovered!',
+      expl: 'Assembling all 5 cylinder digits opens the Starfall master sanctum vault and closes the case!',
     },
   ];
 
   return (
     <PageContainer
       pageNumber={22}
-      title="Answer Key (Part 2)"
-      subtitle="Challenges 7 to 12 & Bonus Puzzles"
+      title={t.p22Title}
+      subtitle={t.p22Subtitle}
       categoryBadge="Answer Key"
       categoryColor="bg-slate-700"
       printSettings={printSettings}
@@ -176,10 +188,18 @@ export const PageAnswerKey2: React.FC<{ printSettings: PrintSettings }> = ({ pri
       <div className="flex flex-col justify-between h-full space-y-3 font-outfit">
         <div className="text-slate-700 text-xs flex items-center justify-between">
           <p>
-            Complete solutions for Challenges 7 through 12 plus bonus telescope maze and crossword.
+            {printSettings.language === 'ro' ? 'Soluții complete și logică pas cu pas pentru provocările 7-12 și Seif.' :
+             printSettings.language === 'de' ? 'Vollständige Lösungen für Aufgaben 7 bis 12 und den Haupttresor.' :
+             printSettings.language === 'fr' ? 'Solutions complètes pour les défis 7 à 12 et la chambre forte finale.' :
+             printSettings.language === 'es' ? 'Soluciones completas para los desafíos 7 a 12 y la bóveda final.' :
+             'Complete solutions for Challenges 7 through 12, Bonus Puzzles, and Master Vault.'}
           </p>
           <span className="font-mono text-[11px] font-bold text-amber-900 bg-amber-100 px-2 py-0.5 rounded">
-            Part 2 & Master Code
+            {printSettings.language === 'ro' ? 'Ghid Profesori & Detectivi' :
+             printSettings.language === 'de' ? 'Lehrer & Detektive' :
+             printSettings.language === 'fr' ? 'Enseignants & Détectives' :
+             printSettings.language === 'es' ? 'Profesores & Detectives' :
+             'For Teachers & Detectives'}
           </span>
         </div>
 
@@ -201,38 +221,28 @@ export const PageAnswerKey2: React.FC<{ printSettings: PrintSettings }> = ({ pri
                     {item.ans}
                   </span>
                 </div>
-                <p className="text-slate-600 leading-snug mt-1 text-[11px]">
-                  {item.expl}
-                </p>
+                <p className="text-slate-600 leading-relaxed text-[11px]">{item.expl}</p>
               </div>
-
-              <div className="mt-2 pt-1 border-t border-dashed border-amber-900/10 flex items-center gap-1 font-mono text-[10px] text-amber-900 font-bold">
-                <KeyRound className="w-3 h-3 text-amber-600" />
-                <span>Unlocked: {item.clue}</span>
+              <div className="mt-2 pt-1 border-t border-amber-900/10 flex items-center justify-between font-mono text-[10px] text-amber-900 font-bold">
+                <span className="flex items-center gap-1">
+                  <KeyRound className="w-3 h-3" /> {item.clue}
+                </span>
+                <span className="text-emerald-700 flex items-center gap-0.5">
+                  <CheckCircle2 className="w-3 h-3" /> Verified
+                </span>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Bonus Solutions Box */}
-        <div className="p-2.5 rounded-xl bg-purple-50 border border-purple-200 text-xs">
-          <span className="font-cinzel text-xs font-bold text-purple-950 uppercase block mb-1">
-            Bonus Puzzle Solutions:
-          </span>
-          <div className="grid grid-cols-2 gap-2 text-[11px] text-purple-900">
-            <div><strong>Telescope Laser Maze:</strong> Path: Start → Mirror 1 → 2 → 3 → 4 → 5 → Eyepiece.</div>
-            <div><strong>Crossword:</strong> 1. PERIMETER, 2. FRACTION, 3. ACUTE, 4. COORDINATES, 5. VERTEX, 6. AREA.</div>
-          </div>
-        </div>
-
         {/* Footer */}
         <div className="border-t border-amber-900/10 pt-2 flex items-center justify-between text-xs">
           <div className="flex items-center gap-2">
-            <BookOpen className="w-4 h-4 text-slate-600" />
-            <span className="font-cinzel font-bold text-slate-900">Master Code Solved:</span>
-            <span className="font-mono font-bold text-emerald-700">21 - 10 - 2 - 4 - 8</span>
+            <BookOpen className="w-4 h-4 text-slate-700" />
+            <span className="font-cinzel font-bold text-slate-900">Solutions Guide:</span>
+            <span className="font-mono font-bold text-slate-700">Part 2 of 2</span>
           </div>
-          <span className="font-mono text-[11px] text-slate-500">Solutions Guide #22</span>
+          <span className="font-mono text-[11px] text-slate-500">Official Solutions #22</span>
         </div>
       </div>
     </PageContainer>

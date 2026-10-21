@@ -31,17 +31,16 @@ export const PageContainer: React.FC<PageContainerProps> = ({
   return (
     <div
       id={`page-sheet-${pageNumber}`}
-      className={`page-sheet relative mx-auto w-full select-text transition-all duration-300 print:shadow-none print:border-none print:m-0 print:p-0 ${
+      className={`page-sheet relative mx-auto w-full select-text flex flex-col justify-between transition-all duration-300 print:shadow-none print:border-none print:m-0 print:p-0 ${
         isCover ? 'overflow-hidden' : ''
       } ${
         isEco
-          ? 'bg-white text-slate-900 border-2 border-slate-300'
-          : 'bg-[#fffdf8] text-slate-800 shadow-2xl border border-amber-900/10'
+          ? 'bg-white text-slate-900 border-2 border-slate-300 print:border-none'
+          : 'bg-[#fffdf8] text-slate-800 shadow-2xl border border-amber-900/10 print:border-none'
       }`}
       style={{
         aspectRatio: '8.5 / 11',
         maxWidth: '850px',
-        minHeight: '1100px',
       }}
     >
       {/* Professional Crop Marks for Commercial Edition */}
@@ -79,7 +78,7 @@ export const PageContainer: React.FC<PageContainerProps> = ({
 
       {/* Top Header Banner for interior pages */}
       {!isCover && (
-        <header className="relative z-10 px-8 pt-6 pb-2 border-b border-amber-900/15 flex items-center justify-between">
+        <header className="relative z-10 px-8 pt-5 pb-2 border-b border-amber-900/15 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="flex items-center justify-center w-8 h-8 rounded-full bg-slate-900 text-amber-300 font-cinzel font-bold text-sm shadow-sm">
               {pageNumber}
@@ -117,13 +116,17 @@ export const PageContainer: React.FC<PageContainerProps> = ({
       )}
 
       {/* Main Page Interior Area */}
-      <main className={`relative z-10 ${isCover ? 'h-full' : 'p-8 pt-4 pb-14 h-[calc(100%-80px)] flex flex-col justify-between'}`}>
+      <main
+        className={`relative z-10 flex-1 flex flex-col justify-between ${
+          isCover ? 'h-full p-0' : 'px-8 py-3.5 overflow-hidden'
+        }`}
+      >
         {children}
       </main>
 
       {/* Bottom Footer for interior pages */}
       {!isCover && (
-        <footer className="absolute bottom-0 inset-x-0 z-10 px-8 py-3 border-t border-amber-900/10 flex items-center justify-between text-xs text-slate-500 font-outfit">
+        <footer className="relative z-10 px-8 py-2.5 border-t border-amber-900/10 flex items-center justify-between text-xs text-slate-500 font-outfit shrink-0">
           <div className="flex items-center gap-2">
             <span className="font-bold text-slate-700">{t.footerAgeTag}</span>
             <span>|</span>

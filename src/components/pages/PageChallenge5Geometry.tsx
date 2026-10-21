@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PageContainer } from '../PageContainer';
 import { PrintSettings } from '../../types/workbook';
+import { TRANSLATIONS } from '../../i18n/translations';
 import { Triangle, CheckCircle2, Lightbulb, Compass } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -11,6 +12,7 @@ export const PageChallenge5Geometry: React.FC<{
   onSolved?: () => void;
 }> = ({ printSettings, userAnswer = '', onAnswerChange, onSolved }) => {
   const isEco = printSettings.mode === 'eco';
+  const t = TRANSLATIONS[printSettings.language || 'en'] || TRANSLATIONS.en;
   const [triangleCount, setTriangleCount] = useState(userAnswer);
   const [isCorrect, setIsCorrect] = useState(userAnswer === '10');
 
@@ -26,18 +28,15 @@ export const PageChallenge5Geometry: React.FC<{
   return (
     <PageContainer
       pageNumber={9}
-      title="Geometry Challenge"
-      subtitle="The Star Pattern"
-      categoryBadge="Challenge 5"
+      title={t.c5Title}
+      subtitle={t.c5Subtitle}
+      categoryBadge={t.c5Badge}
       categoryColor="bg-amber-600"
       printSettings={printSettings}
     >
       <div className="flex flex-col justify-between h-full space-y-3">
         <div className="text-slate-800 font-outfit text-xs leading-relaxed">
-          <p>
-            An intricate celestial star was carved into the pedestal floor beneath the Moonstone vault.
-            Inspect the geometric star figure below to unlock the angle cipher.
-          </p>
+          <p>{t.c5Story}</p>
         </div>
 
         {/* Geometric Star on Dot Grid SVG (From Image Preview) */}
@@ -86,31 +85,35 @@ export const PageChallenge5Geometry: React.FC<{
           {/* Geometry Questions List */}
           <div className="flex-1 space-y-2 text-xs font-outfit">
             <span className="font-cinzel text-xs font-bold text-amber-950 block">
-              Investigate the Star Properties:
+              {printSettings.language === 'ro' ? 'Proprietățile Geometrice ale Stelei:' :
+               printSettings.language === 'de' ? 'Geometrische Eigenschaften des Sterns:' :
+               printSettings.language === 'fr' ? 'Propriétés Géométriques de l’Étoile :' :
+               printSettings.language === 'es' ? 'Propiedades Geométricas de la Estrella:' :
+               'Investigate the Star Properties:'}
             </span>
 
             <div className="space-y-1.5">
               <div className="p-2 bg-white rounded-xl border border-slate-200">
                 <label className="font-bold text-slate-800 block text-[11px] mb-1">
-                  1. How many total triangles can you find?
+                  {t.c5Q1}
                 </label>
                 <div className="flex items-center gap-2">
                   <input
                     type="text"
                     value={triangleCount}
                     onChange={(e) => setTriangleCount(e.target.value)}
-                    placeholder="Count..."
+                    placeholder="10"
                     className="w-20 text-center font-bold font-mono py-1 px-2 border rounded-lg focus:outline-none focus:border-amber-600"
                   />
                   <button
                     onClick={handleCheck}
-                    className="no-print px-3 py-1 bg-amber-600 text-white font-bold rounded-lg text-xs"
+                    className="no-print px-3 py-1 bg-amber-600 text-white font-bold rounded-lg text-xs cursor-pointer hover:bg-amber-700 transition-all"
                   >
-                    Check
+                    {t.c1Verify || 'Check'}
                   </button>
                   {isCorrect && (
                     <span className="text-emerald-700 font-bold text-[11px] flex items-center gap-1">
-                      <CheckCircle2 className="w-3.5 h-3.5" /> 10 Triangles!
+                      <CheckCircle2 className="w-3.5 h-3.5" /> 10!
                     </span>
                   )}
                 </div>
@@ -118,19 +121,19 @@ export const PageChallenge5Geometry: React.FC<{
 
               <div className="p-2 bg-white rounded-xl border border-slate-200 text-[11px]">
                 <span className="font-bold text-slate-800 block mb-0.5">
-                  2. Are the star points Acute, Right, or Obtuse?
+                  {t.c5Q2}
                 </span>
                 <span className="font-mono font-bold text-amber-900 bg-amber-50 px-2 py-0.5 rounded">
-                  Acute (36° each &lt; 90°)
+                  {t.c5Q2Ans}
                 </span>
               </div>
 
               <div className="p-2 bg-white rounded-xl border border-slate-200 text-[11px]">
                 <span className="font-bold text-slate-800 block mb-0.5">
-                  3. What regular polygon is in the center of the star?
+                  {t.c5Q3}
                 </span>
                 <span className="font-mono font-bold text-indigo-900 bg-indigo-50 px-2 py-0.5 rounded">
-                  Regular Pentagon (5 sides)
+                  {t.c5Q3Ans}
                 </span>
               </div>
             </div>
@@ -148,10 +151,10 @@ export const PageChallenge5Geometry: React.FC<{
           </div>
           <div>
             <span className="font-cinzel text-xs font-bold text-amber-900 uppercase tracking-wider block">
-              DETECTIVE GEOMETRY BREAKDOWN:
+              {t.c5ClueTitle}
             </span>
             <p className="font-outfit text-slate-700 mt-0.5">
-              Don't just count the 5 outer small triangle points (like triangle at top point A). There are also 5 larger overlapping triangles formed across the chords (like triangles ABC, BCD, etc.). 5 + 5 = <strong>10 triangles in total!</strong>
+              {t.c5ClueText}
             </p>
           </div>
         </div>
@@ -160,7 +163,13 @@ export const PageChallenge5Geometry: React.FC<{
         <div className="border-t border-amber-900/10 pt-2 flex items-center justify-between text-xs">
           <div className="flex items-center gap-2">
             <Triangle className="w-4 h-4 text-amber-600" />
-            <span className="font-cinzel font-bold text-slate-900">Total Triangles:</span>
+            <span className="font-cinzel font-bold text-slate-900">
+              {printSettings.language === 'ro' ? 'Total Triunghiuri:' :
+               printSettings.language === 'de' ? 'Gesamte Dreiecke:' :
+               printSettings.language === 'fr' ? 'Total Triangles :' :
+               printSettings.language === 'es' ? 'Total Triángulos:' :
+               'Total Triangles:'}
+            </span>
             <span className="font-mono font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-950">
               {isCorrect ? '10' : '__'}
             </span>

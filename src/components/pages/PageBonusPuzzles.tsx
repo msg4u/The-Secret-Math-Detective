@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { PageContainer } from '../PageContainer';
 import { PrintSettings } from '../../types/workbook';
+import { TRANSLATIONS } from '../../i18n/translations';
 import { Compass, Lightbulb, CheckCircle2, Sparkles, HelpCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export const PageBonusMaze: React.FC<{ printSettings: PrintSettings }> = ({ printSettings }) => {
   const isEco = printSettings.mode === 'eco';
+  const t = TRANSLATIONS[printSettings.language || 'en'] || TRANSLATIONS.en;
   const [visitedMirrors, setVisitedMirrors] = useState<number[]>([]);
   const [isCompleted, setIsCompleted] = useState(false);
 
@@ -25,27 +27,22 @@ export const PageBonusMaze: React.FC<{ printSettings: PrintSettings }> = ({ prin
   return (
     <PageContainer
       pageNumber={19}
-      title="Bonus 1: The Telescope Maze"
-      subtitle="Optical Beam Alignment"
+      title={t.p19Title}
+      subtitle={t.p19Subtitle}
       categoryBadge="Bonus Puzzle"
       categoryColor="bg-purple-600"
       printSettings={printSettings}
     >
       <div className="flex flex-col justify-between h-full space-y-3 font-outfit">
         <div className="text-slate-800 text-xs leading-relaxed">
-          <p>
-            The telescope mirror tracking system needs recalibration. Guide the laser light beam from the
-            <strong> Laser Emitter (START)</strong> to the <strong>Great Eyepiece (FINISH)</strong> by reflecting off mirrors at 90° and 45° angles. Avoid the blocked dead ends!
-          </p>
+          <p>{t.p19Desc}</p>
         </div>
 
         {/* Laser Optics Maze SVG */}
         <div className="flex flex-col sm:flex-row gap-4 items-center justify-center py-2 bg-amber-50/50 rounded-2xl border border-amber-900/10 p-3">
           <div className="relative">
             <svg width="260" height="260" viewBox="0 0 260 260" className="bg-[#0f172a] rounded-xl shadow-md border-2 border-indigo-400">
-              {/* Labyrinth Grid Walls */}
               <rect x="10" y="10" width="240" height="240" fill="none" stroke="#334155" strokeWidth="2" />
-              {/* Internal Obstacles / Walls */}
               <line x1="60" y1="10" x2="60" y2="100" stroke="#334155" strokeWidth="2.5" />
               <line x1="110" y1="60" x2="110" y2="180" stroke="#334155" strokeWidth="2.5" />
               <line x1="160" y1="10" x2="160" y2="120" stroke="#334155" strokeWidth="2.5" />
@@ -99,7 +96,6 @@ export const PageBonusMaze: React.FC<{ printSettings: PrintSettings }> = ({ prin
                 );
               })}
 
-              {/* Laser Beam Path (Preview when completed or clicking) */}
               {isCompleted && (
                 <polyline
                   points="35,35 35,130 85,130 85,35 135,35 135,225 225,225"
@@ -115,25 +111,20 @@ export const PageBonusMaze: React.FC<{ printSettings: PrintSettings }> = ({ prin
 
           <div className="flex-1 space-y-2 text-xs">
             <span className="font-cinzel text-xs font-bold text-amber-950 block">
-              Optics Path Rules:
+              {printSettings.language === 'ro' ? 'Reguli de Refracție Laser:' :
+               printSettings.language === 'de' ? 'Laser-Reflexionsregeln:' :
+               printSettings.language === 'fr' ? 'Règles de Réflexion Laser :' :
+               printSettings.language === 'es' ? 'Reglas de Refracción Láser:' :
+               'Optics Path Rules:'}
             </span>
             <div className="p-2.5 bg-white rounded-xl border border-slate-200 text-slate-700 space-y-1">
-              <div>1. Light travels in straight lines until it hits a mirror.</div>
-              <div>2. Angle of incidence equals angle of reflection (90° turn).</div>
-              <div>3. Click on the mirrors in order to align the laser beam!</div>
+              <div>1. Reflect at 90° angles using mirrors #1 → #2 → #3 → #4 → #5 → OUT.</div>
+              <div>2. Avoid the opaque security walls.</div>
             </div>
-
-            <div className="p-2 bg-amber-50 rounded-xl border border-amber-200">
-              <span className="font-bold text-slate-800 block mb-0.5">Correct Mirror Sequence:</span>
-              <span className="font-mono font-bold text-amber-900">
-                Start → Mirror #1 → #2 → #3 → #4 → #5 → Finish!
-              </span>
-            </div>
-
             {isCompleted && (
-              <div className="p-2 bg-emerald-50 text-emerald-800 font-bold rounded-xl border border-emerald-200 flex items-center gap-1.5">
+              <div className="p-2 bg-emerald-50 text-emerald-800 rounded-xl border border-emerald-300 flex items-center gap-1.5 font-bold">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                <span>Laser Beam Aligned! Telescope Online!</span>
+                <span>Optics Beam Aligned!</span>
               </div>
             )}
           </div>
@@ -142,13 +133,19 @@ export const PageBonusMaze: React.FC<{ printSettings: PrintSettings }> = ({ prin
         {/* Footer */}
         <div className="border-t border-amber-900/10 pt-2 flex items-center justify-between text-xs">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-purple-600" />
-            <span className="font-cinzel font-bold text-slate-900">Bonus Status:</span>
-            <span className="font-mono font-bold px-2 py-0.5 rounded bg-purple-100 text-purple-950">
-              {isCompleted ? 'Solved (+50 Stars)' : 'In Progress'}
+            <Compass className="w-4 h-4 text-purple-600" />
+            <span className="font-cinzel font-bold text-slate-900">
+              {printSettings.language === 'ro' ? 'Stare Aliniere Laser:' :
+               printSettings.language === 'de' ? 'Laser-Status:' :
+               printSettings.language === 'fr' ? 'Statut du Faisceau :' :
+               printSettings.language === 'es' ? 'Estado del Haz Láser:' :
+               'Optics Laser Status:'}
+            </span>
+            <span className="font-mono font-bold text-purple-800">
+              {isCompleted ? 'CALIBRATED' : 'ALIGNMENT NEEDED'}
             </span>
           </div>
-          <span className="font-mono text-[11px] text-slate-500">Optical Lab #19</span>
+          <span className="font-mono text-[11px] text-slate-500">Bonus Puzzle #01</span>
         </div>
       </div>
     </PageContainer>
@@ -157,6 +154,7 @@ export const PageBonusMaze: React.FC<{ printSettings: PrintSettings }> = ({ prin
 
 export const PageBonusCrossword: React.FC<{ printSettings: PrintSettings }> = ({ printSettings }) => {
   const isEco = printSettings.mode === 'eco';
+  const t = TRANSLATIONS[printSettings.language || 'en'] || TRANSLATIONS.en;
 
   const crosswordClues = [
     { num: 1, dir: 'Across', clue: 'The total distance around the outside edge of a shape (9 letters)', ans: 'PERIMETER' },
@@ -170,25 +168,21 @@ export const PageBonusCrossword: React.FC<{ printSettings: PrintSettings }> = ({
   return (
     <PageContainer
       pageNumber={20}
-      title="Bonus 2: Math Crossword"
-      subtitle="Astronomical Vocabulary"
+      title={t.p20Title}
+      subtitle={t.p20Subtitle}
       categoryBadge="Bonus Puzzle"
       categoryColor="bg-purple-600"
       printSettings={printSettings}
     >
       <div className="flex flex-col justify-between h-full space-y-3 font-outfit">
         <div className="text-slate-800 text-xs leading-relaxed">
-          <p>
-            Test your detective math vocabulary! Fill in the mathematical terms used by Detective Nova and Robot Pip throughout the Starfall mystery:
-          </p>
+          <p>{t.p20Desc}</p>
         </div>
 
         {/* Crossword Grid Graphic */}
         <div className="p-3 bg-amber-50/60 rounded-2xl border border-amber-900/15 flex flex-col sm:flex-row gap-4 items-center justify-center">
-          {/* Visual Mini Crossword Grid */}
           <div className="relative">
             <svg width="220" height="180" viewBox="0 0 220 180" className="bg-white rounded-xl shadow-xs border border-slate-300">
-              {/* Row 1: ACUTE (at y=30) */}
               {['A', 'C', 'U', 'T', 'E'].map((letter, i) => (
                 <g key={i}>
                   <rect x={30 + i * 22} y="20" width="22" height="22" fill="#f8fafc" stroke="#334155" strokeWidth="1.5" />
@@ -197,7 +191,6 @@ export const PageBonusCrossword: React.FC<{ printSettings: PrintSettings }> = ({
                 </g>
               ))}
 
-              {/* Word 2: FRACTION (horizontal at y=64) */}
               {['F', 'R', 'A', 'C', 'T', 'I', 'O', 'N'].map((letter, i) => (
                 <g key={i}>
                   <rect x={20 + i * 22} y="64" width="22" height="22" fill="#f8fafc" stroke="#334155" strokeWidth="1.5" />
@@ -206,7 +199,6 @@ export const PageBonusCrossword: React.FC<{ printSettings: PrintSettings }> = ({
                 </g>
               ))}
 
-              {/* Word 3: PERIMETER (horizontal at y=108) */}
               {['P', 'E', 'R', 'I', 'M', 'E', 'T', 'E', 'R'].map((letter, i) => (
                 <g key={i}>
                   <rect x={10 + i * 22} y="108" width="22" height="22" fill="#f8fafc" stroke="#334155" strokeWidth="1.5" />
@@ -214,59 +206,41 @@ export const PageBonusCrossword: React.FC<{ printSettings: PrintSettings }> = ({
                   {i === 0 && <text x="12" y="116" fill="#64748b" fontSize="6">1</text>}
                 </g>
               ))}
-
-              {/* Down Word: AREA (intersects PERIMETER at R) */}
-              {['A', 'R', 'E', 'A'].map((letter, i) => (
-                <g key={i}>
-                  <rect x="54" y={86 + i * 22} width="22" height="22" fill="#fef3c7" stroke="#b45309" strokeWidth="1.5" />
-                  <text x="65" y={102 + i * 22} fill="#78350f" fontSize="11" fontWeight="bold" textAnchor="middle">{letter}</text>
-                  {i === 0 && <text x="56" y="94" fill="#b45309" fontSize="6">6</text>}
-                </g>
-              ))}
             </svg>
           </div>
 
-          {/* Clues Column */}
           <div className="flex-1 space-y-1.5 text-xs">
             <span className="font-cinzel text-xs font-bold text-amber-950 block">
-              Crossword Clues:
+              {printSettings.language === 'ro' ? 'Indicii Cuvinte Încrucișate:' :
+               printSettings.language === 'de' ? 'Kreuzworträtsel-Hinweise:' :
+               printSettings.language === 'fr' ? 'Indices Mots Croisés :' :
+               printSettings.language === 'es' ? 'Pistas del Crucigrama:' :
+               'Crossword Clues:'}
             </span>
-            <div className="space-y-1 max-h-[170px] overflow-y-auto pr-1">
+            <div className="space-y-1 max-h-36 overflow-y-auto pr-1">
               {crosswordClues.map((c) => (
                 <div key={c.num} className="p-1.5 bg-white rounded-lg border border-slate-200 text-[11px]">
-                  <span className="font-bold text-amber-900 mr-1">
-                    {c.num} {c.dir}:
-                  </span>
-                  <span className="text-slate-700">{c.clue}</span>
-                  <span className="font-mono text-emerald-700 font-bold ml-1">[{c.ans}]</span>
+                  <span className="font-bold text-purple-900">{c.num}. ({c.dir}):</span> {c.clue}
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Detective Word Bank */}
-        <div className="p-2.5 bg-white rounded-xl border border-slate-200 text-xs text-slate-700">
-          <span className="font-bold text-slate-900 block mb-1">Word Bank:</span>
-          <div className="flex flex-wrap gap-1.5 font-mono text-[11px]">
-            {['PERIMETER', 'FRACTION', 'ACUTE', 'COORDINATES', 'VERTEX', 'AREA', 'DIAMETER', 'SEQUENCE'].map((w) => (
-              <span key={w} className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-800">
-                {w}
-              </span>
-            ))}
-          </div>
-        </div>
-
         {/* Footer */}
         <div className="border-t border-amber-900/10 pt-2 flex items-center justify-between text-xs">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-purple-600" />
-            <span className="font-cinzel font-bold text-slate-900">Vocabulary Mastered:</span>
-            <span className="font-mono font-bold px-2 py-0.5 rounded bg-purple-100 text-purple-950">
-              6 / 6 Words
+            <Sparkles className="w-4 h-4 text-purple-600" />
+            <span className="font-cinzel font-bold text-slate-900">
+              {printSettings.language === 'ro' ? 'Vocabular Matematic:' :
+               printSettings.language === 'de' ? 'Mathematischer Wortschatz:' :
+               printSettings.language === 'fr' ? 'Vocabulaire Mathématique :' :
+               printSettings.language === 'es' ? 'Vocabulario Matemático:' :
+               'Math Vocabulary:'}
             </span>
+            <span className="font-mono font-bold text-purple-800">Master Level</span>
           </div>
-          <span className="font-mono text-[11px] text-slate-500">Crossword Archives #20</span>
+          <span className="font-mono text-[11px] text-slate-500">Bonus Puzzle #02</span>
         </div>
       </div>
     </PageContainer>
